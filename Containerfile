@@ -1,27 +1,25 @@
-# Container image for the marketing site and docs (see website/README.md).
+# Container image for the marketing site and docs (see README.md).
 #
-# IMPORTANT: the build context is the REPOSITORY ROOT, not website/ —
+#     podman build --format docker -f Containerfile -t macterm-website .
 #
-#     podman build --format docker -f website/Containerfile -t macterm-website .
-#
-# because website/public/assets is a symlink to the repo-root assets/ dir. A
-# context rooted at website/ would copy that symlink dangling; the build stage
-# below materializes it as real files instead. The repo-root .containerignore
-# keeps the context to just website/ and assets/.
+# The build context is this repository with a checkout of macterm/macterm in
+# ./macterm (`bun run fetch`, or the workflow's second checkout). The docs
+# pages and the assets come from that checkout (see content.mjs).
+# .containerignore keeps both .git folders and every host build out.
 #
 # `--format docker` because the OCI image format has no HEALTHCHECK: podman's
 # default would build the image and silently drop the one below.
 #
-# Run `node website/lastmod.mjs` on the host before the build. The build stage
-# has no git history, and that script writes the commit date of every page to
-# website/docs/lastmod.json, which `bun run build` turns into the sitemap's
+# Run `node lastmod.mjs` on the host before the build. The build stage has no
+# git history, and that script writes the commit date of every page to
+# generated/lastmod.json, which `bun run build` turns into the sitemap's
 # <lastmod>. Without the file, check-seo.mjs fails the build on purpose. The
-# `podman:build` script and the Website workflow both run it.
+# `podman:build` script and the Build workflow both run it.
 #
-# Run `node website/releases.mjs` on the host too. It writes the release notes
-# of the changelog page to website/docs/releases.json, with the host's token.
-# Without the file, the build stage asks GitHub anonymously, which a shared CI
-# address can be refused. The same two callers run it.
+# Run `node releases.mjs` on the host too. It writes the release notes of the
+# changelog page to generated/releases.json, with the host's token. Without the
+# file, the build stage asks GitHub anonymously, which a shared CI address can
+# be refused. The same two callers run it.
 #
 # Bun builds, Caddy serves. The site is static once `bun run build` has
 # rendered the docs and compiled the CSS, so the runtime stage carries no
@@ -37,24 +35,21 @@
 # ---- deps: resolved once, cached until the lockfile moves -------------------
 FROM docker.io/oven/bun:1.4-alpine AS deps
 WORKDIR /app
-COPY website/package.json website/bun.lock ./
+COPY package.json bun.lock ./
 RUN --mount=type=cache,target=/root/.bun/install/cache \
     bun install --frozen-lockfile
 
-# ---- build: render docs/pages/*.md and compile the design tokens ----------
+# ---- build: render macterm/docs/*.md and compile the design tokens ---------
 FROM docker.io/oven/bun:1.4-alpine AS build
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
-COPY website/ ./
-# Replace the public/assets symlink (dangling in the image) with real files.
-RUN rm -rf public/assets
-COPY assets/ ./public/assets/
+COPY . ./
 RUN bun run build
 
 # ---- runtime ---------------------------------------------------------------
 FROM docker.io/library/caddy:2-alpine AS runtime
 
-COPY website/Caddyfile /etc/caddy/Caddyfile
+COPY Caddyfile /etc/caddy/Caddyfile
 COPY --from=build /app/public /srv
 
 ENV PORT=3000 \

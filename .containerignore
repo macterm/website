@@ -1,0 +1,22 @@
+# Build-context filter for Containerfile. podman reads it from the context
+# root. Docker does not read this file at all; build with podman.
+
+# Git history: the build stage reads the page dates from generated/lastmod.json.
+.git/
+macterm/.git/
+
+# Installed and regenerated inside the image by `bun run build`. Never copy a
+# host build in.
+node_modules/
+public/assets/
+public/docs/
+public/img/
+public/tokens.css
+public/components/
+public/sitemap.xml
+public/robots.txt
+public/changelog.html
+
+Containerfile
+.github/
+**/.DS_Store

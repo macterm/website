@@ -1,0 +1,135 @@
+name: Build
+
+# Builds the website container image (Containerfile) with podman and publishes
+# it to ghcr.io. Pull requests build but push nothing, so a broken Containerfile
+# is caught before it can replace :latest.
+#
+# The site renders docs/ and serves assets/ of macterm/macterm, and its
+# changelog shows that repository's releases. website-dispatch.yml there sends
+# a repository_dispatch (macterm-content) when one of them changes, and this
+# workflow builds again from main of both repositories.
+#
+# arm64 only, built natively on an arm64 runner: the cluster that runs the site
+# is arm64, and nothing else pulls the image.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  repository_dispatch:
+    types: [macterm-content]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  LOCAL_IMAGE: localhost/macterm-website:ci
+
+# A superseded build is never worth finishing: the image it would publish is
+# already stale. In-flight PR builds are cancelled the same way.
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-24.04-arm
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      # The sitemap's <lastmod> is the commit date of each page, from both
+      # repositories. A clone with depth 1 has one commit for every file, and
+      # lastmod.mjs refuses a date from the edge of a shallow clone.
+      - name: Check Out the Website
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Check Out Macterm
+        uses: actions/checkout@v7
+        with:
+          repository: macterm/macterm
+          ref: main
+          path: macterm
+          fetch-depth: 0
+          sparse-checkout: |
+            /docs/
+            /assets/
+            /Macterm/Info.plist
+            /scripts/publish-appcast.sh
+          sparse-checkout-cone-mode: false
+
+      # The build stage has no git history (see Containerfile), so the page
+      # dates go into the build context as generated/lastmod.json.
+      - name: Sitemap Dates
+        run: node lastmod.mjs
+
+      # The changelog's release notes, read here with a token, so that the
+      # build stage does not ask GitHub anonymously (see releases.mjs).
+      - name: Release Notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node releases.mjs
+
+      # skopeo is only used after a push, so check it here, where a pull
+      # request fails on it too.
+      - name: Tool Versions
+        run: |
+          podman version
+          skopeo --version
+
+      - name: Image Metadata
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          # Three tags, each with a job. :latest is what a human pulls;
+          # :sha-<short> is the way back to a specific build after a bad one;
+          # and the UTC timestamp tag is what the cluster deploys, because
+          # Flux's ImagePolicy picks the newest image by sorting tag strings
+          # (`alphabetical: asc`) and neither of the other two orders. Keep the
+          # timestamp first and zero-padded — that is what makes lexical order
+          # and chronological order the same thing. Changing this format means
+          # changing the `filterTags` pattern in the homelab repo's
+          # apps/macterm/manifests/image.yaml to match.
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha
+            type=raw,value={{date 'YYYYMMDD-HHmmss' tz='UTC'}}-{{sha}},enable={{is_default_branch}}
+
+      - name: Build
+        run: |
+          labels=()
+          while IFS= read -r label; do
+            [ -n "$label" ] && labels+=(--label "$label")
+          done <<< "$DOCKER_METADATA_OUTPUT_LABELS"
+          podman build \
+            --format docker \
+            --platform linux/arm64 \
+            --file Containerfile \
+            "${labels[@]}" \
+            --tag "$LOCAL_IMAGE" \
+            .
+
+      - name: Log In to ${{ env.REGISTRY }}
+        if: github.event_name != 'pull_request'
+        env:
+          ACTOR: ${{ github.actor }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: printf '%s' "$TOKEN" | podman login "$REGISTRY" --username "$ACTOR" --password-stdin
+
+      - name: Push
+        if: github.event_name != 'pull_request'
+        run: |
+          while IFS= read -r tag; do
+            podman push --format v2s2 "$LOCAL_IMAGE" "docker://$tag"
+          done < <(jq -r '.tags[]' <<< "$DOCKER_METADATA_OUTPUT_JSON")
+
+      - name: Inspect
+        if: github.event_name != 'pull_request'
+        run: |
+          skopeo inspect --raw \
+            "docker://$REGISTRY/$IMAGE_NAME:${{ steps.meta.outputs.version }}" | jq .

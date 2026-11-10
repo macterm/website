@@ -4,14 +4,17 @@
   "version": "1.0.0",
   "description": "Marketing site and docs for Macterm — built by Bun, served by Caddy.",
   "scripts": {
+    "fetch": "git clone --filter=blob:none --no-checkout https://github.com/macterm/macterm.git macterm && git -C macterm sparse-checkout set --no-cone /docs/ /assets/ /Macterm/Info.plist /scripts/publish-appcast.sh && git -C macterm checkout main",
+    "build:assets": "bun copy-assets.mjs",
     "build:docs": "bun build-docs.mjs",
     "build:img": "bun build-images.mjs",
     "build:css": "bun build-tokens.mjs",
     "check:seo": "bun check-seo.mjs",
-    "build": "bun run build:img && bun run build:docs && bun run build:css && bun run check:seo",
+    "check:feed": "bun check-feed.mjs",
+    "build": "bun run build:assets && bun run build:img && bun run build:docs && bun run build:css && bun run check:seo && bun run check:feed",
     "serve": "PORT=${PORT:-8765} SITE_ROOT=$PWD/public caddy run --config Caddyfile",
     "dev": "bun releases.mjs && bun run build && bun run serve",
-    "podman:build": "bun lastmod.mjs && bun releases.mjs && podman build --format docker --platform linux/arm64 -f Containerfile -t macterm-website ..",
+    "podman:build": "bun lastmod.mjs && bun releases.mjs && podman build --format docker --platform linux/arm64 -f Containerfile -t macterm-website .",
     "podman:run": "podman run --rm -p 3000:3000 macterm-website"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-// Renders website/docs/pages/*.md into a multi-page docs site under
+// Renders docs/*.md of the Macterm checkout (see content.mjs) into a multi-page docs site under
 // public/docs/ at build time, and the notes of every stable release into
 // public/changelog.html (see releases.mjs).
 //
@@ -29,9 +29,9 @@ import { dirname, join } from "node:path";
 import { Marked } from "marked";
 import { lastModifiedDates, LASTMOD_FILE, LANDING_SOURCE, pageSource } from "./lastmod.mjs";
 import { fetchReleases, RELEASES_FILE, REPO } from "./releases.mjs";
+import { PAGES_DIR, requireCheckout } from "./content.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const PAGES_DIR = join(here, "docs", "pages");
 const TEMPLATE = join(here, "src", "docs-template.html");
 const OUT_DIR = join(here, "public", "docs");
 const PUBLIC_DIR = join(here, "public");
@@ -394,7 +394,7 @@ function writeChangelog(template, releases) {
           applicationCategory: "DeveloperApplication",
           operatingSystem: "macOS 14.0 or later",
           softwareVersion: releases[0].tag.replace(/^v/, ""),
-          sameAs: ["https://github.com/thdxg/macterm", "https://www.reddit.com/r/macterm"],
+          sameAs: ["https://github.com/macterm/macterm", "https://www.reddit.com/r/macterm"],
         },
       },
       {
@@ -433,11 +433,12 @@ async function loadReleases() {
 }
 
 async function main() {
+  requireCheckout();
   const files = readdirSync(PAGES_DIR)
     .filter((f) => f.endsWith(".md"))
     .sort();
   if (!files.length) {
-    throw new Error("build-docs: no .md files in docs/pages/");
+    throw new Error(`build-docs: no .md files in ${PAGES_DIR}`);
   }
 
   const pages = files.map((f) => {
@@ -496,7 +497,7 @@ async function main() {
             name: "Macterm",
             applicationCategory: "DeveloperApplication",
             operatingSystem: "macOS 14.0 or later",
-            sameAs: ["https://github.com/thdxg/macterm", "https://www.reddit.com/r/macterm"],
+            sameAs: ["https://github.com/macterm/macterm", "https://www.reddit.com/r/macterm"],
           },
         },
         {
@@ -546,7 +547,7 @@ async function main() {
 }
 
 // The lastmod of each page source, see lastmod.mjs. Git answers in a checkout.
-// In the image build there is no git, so the host wrote docs/lastmod.json into
+// In the image build there is no git, so the host wrote generated/lastmod.json into
 // the build context first. Git comes first so that a stale file in a checkout
 // never wins. With neither, the sitemap gets no lastmod and check-seo.mjs
 // fails the build, because a sitemap without the dates is a silent regression.

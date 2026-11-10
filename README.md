@@ -1,6 +1,8 @@
 # Macterm website
 
-The website has the landing page and the docs. Bun builds it. Caddy serves it. A container image ships it to [macterm.thdxg.dev](https://macterm.thdxg.dev).
+The website has the landing page, the docs and the changelog, and it proxies the update feed. Bun builds it. Caddy serves it. A container image ships it to [macterm.thdxg.dev](https://macterm.thdxg.dev).
+
+The docs pages and the assets are not in this repository. They are in [macterm/macterm](https://github.com/macterm/macterm) (`docs/*.md` and `assets/`), so that a feature and its docs land in one pull request there. The build reads them from a checkout of that repository (`content.mjs`).
 
 ## Structure
 
@@ -8,7 +10,7 @@ The website has the landing page and the docs. Bun builds it. Caddy serves it. A
 public/            Static files that Caddy serves
   index.html       Landing page (written by hand)
   site.js          Shared behavior (copy buttons, docs menu, demo reel)
-  assets/          Symlink to assets/ in the repo root (icons, hero, demo clips, schemas)
+  assets/          Copy of macterm/assets (icons, hero, demo clips, schemas) ── copied, do not edit ──
   docs/            One HTML file for each docs page ── generated, do not edit ──
   img/             The OG card and the favicons ── generated, do not edit ──
   tokens.css       Compiled design tokens ── generated, do not edit ──
@@ -16,19 +18,23 @@ public/            Static files that Caddy serves
 src/
   docs-template.html  The shell that holds each rendered docs page
 design-system/     Vendored copy of the eyesclosed design system
-docs/pages/*.md    Docs content: one Markdown file for each page
+macterm/           Checkout of macterm/macterm (`bun run fetch`), or MACTERM_DIR
+content.mjs        Where the checkout is, and its docs/ and assets/
+copy-assets.mjs    Copies macterm/assets → public/assets/
 build-images.mjs   Renders assets/ images → public/img/
-build-docs.mjs     Renders docs/pages/*.md → public/docs/<slug>.html, the
+build-docs.mjs     Renders macterm/docs/*.md → public/docs/<slug>.html, the
                    release notes → public/changelog.html, plus sitemap.xml
                    and robots.txt
 releases.mjs       The stable releases on GitHub for the changelog; for an
-                   image build it writes docs/releases.json on the host first
+                   image build it writes generated/releases.json on the host first
 lastmod.mjs        The lastmod of each sitemap entry, from git; for an image
-                   build it writes docs/lastmod.json on the host first
+                   build it writes generated/lastmod.json on the host first
 build-tokens.mjs   Compiles design-system/tokens.json → public/tokens.css and
                    copies bundle.css → public/components/bundle.css
 check-seo.mjs      Fails the build when a fact that index.html states twice
                    disagrees with itself or with SITE_URL
+check-feed.mjs     Fails the build when the Caddyfile and SITE_URL disagree with
+                   the app's SUFeedURL and scripts/publish-appcast.sh
 Caddyfile          How Caddy serves the site, in dev and in production
 Containerfile      Bun builds the site, Caddy serves it
 ```
@@ -40,14 +46,17 @@ Git ignores every generated file. `bun run build` writes them again.
 ```sh
 brew install caddy  # once
 bun install
+bun run fetch       # once: a sparse checkout of macterm/macterm in ./macterm
 bun run dev         # builds, then serves on http://localhost:8765
 ```
 
 `bun run dev` serves through the same `Caddyfile` as production. Do not use a plain static file server. Only the `Caddyfile` resolves the extensionless `/docs/<slug>` URLs that the sidebar links to. `PORT` sets another port.
 
+To see the docs of a branch of Macterm, set `MACTERM_DIR` to that checkout: `MACTERM_DIR=~/dev/macterm bun run dev`. To update `./macterm`, run `git -C macterm pull`.
+
 ### Docs pages
 
-Each file in `docs/pages/` is one page. The number prefix sets the order. Each file starts with a front-matter comment:
+Each file in `docs/` of macterm/macterm is one page. Edit the pages there, not here. The number prefix sets the order. Each file starts with a front-matter comment:
 
 ```
 <!-- page:
@@ -75,17 +84,21 @@ The text of a feature names the action, never the keys. A user can change every 
 
 `index.html` has no build step, so its canonical URL, OG URLs and JSON-LD are written in the file. They must match `SITE_URL` in `build-docs.mjs`. `check-seo.mjs` checks this.
 
+### Docs checks
+
+A pull request in macterm/macterm that changes `docs/` or `assets/` runs this build too (its `Docs / Site Build` check), against `main` of this repository.
+
 ### Update feed
 
-The site also serves the Sparkle feed: `/appcast.xml` and `/notes/<tag>.html`. The image does not contain them. The `Caddyfile` proxies them from the `appcast` branch, an orphan branch of the repository, and its comments explain the rules for that block.
+The site also serves the Sparkle feed: `/appcast.xml` and `/notes/<tag>.html`. The image does not contain them. The `Caddyfile` proxies them from the `appcast` branch, an orphan branch of macterm/macterm, and its comments explain the rules for that block.
 
-> The origin is a contract with the app. `SUFeedURL` in `Macterm/Info.plist`, `SITE_URL` in `scripts/publish-appcast.sh` and `SITE_URL` in `build-docs.mjs` must all name this site. An installed app asks the URL that it was built with, forever. `UpdaterChannelTests` checks them.
+> The origin is a contract with the app. `SUFeedURL` in `Macterm/Info.plist`, `SITE_URL` in `scripts/publish-appcast.sh` and `SITE_URL` in `build-docs.mjs` must all name this site. An installed app asks the URL that it was built with, forever. `UpdaterChannelTests` in macterm/macterm and `check-feed.mjs` here check them.
 
 ## Container image
 
-`.github/workflows/website.yml` builds the image with podman for `linux/arm64` on each push to `main` that changes `website/` or `assets/`, and publishes it to `ghcr.io/thdxg/macterm/website`. A pull request builds the image but does not push it. Flux deploys the timestamp tag. The workflow explains the tag format.
+`.github/workflows/build.yml` builds the image with podman for `linux/arm64` and publishes it to `ghcr.io/macterm/website`. It runs on each push to `main`, and on a `repository_dispatch` (`macterm-content`) that macterm/macterm sends when its `docs/` or `assets/` change on `main`, or when a person publishes, edits or deletes a release. A pull request builds the image but does not push it. Flux deploys the timestamp tag. The workflow explains the tag format.
 
-To build the image on your Mac, use podman, not `docker build`. The context is the repo root, because `public/assets` is a symlink out of `website/`. Docker does not read the root `.containerignore`, so it would send the whole repo.
+To build the image on your Mac, use podman, not `docker build`. The context is this repository with the checkout in `./macterm` (`bun run fetch`). Docker does not read `.containerignore`, so it would send both `.git` folders and `node_modules`.
 
 ```sh
 bun run podman:build
