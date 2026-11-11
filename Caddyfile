@@ -64,11 +64,11 @@
 	# time by scripts/publish-appcast.sh — long after the image was built — so
 	# baking them in would mean rebuilding and redeploying the site on every
 	# release and on every tip build, and the feed would lag each one by that
-	# whole cycle. The repository's `appcast` BRANCH is the store instead and
-	# is proxied from here: raw.githubusercontent.com serves any branch, so the
+	# whole cycle. The `main` branch of the macterm/appcast repository is the store
+	# instead and is proxied from here: raw.githubusercontent.com serves any repo, so the
 	# publish script keeps its git read-modify-write untouched, and the feed is
-	# live the instant the workflow pushes. The branch name is a contract with
-	# FEED_BRANCH in scripts/publish-appcast.sh and with the fetch in
+	# live the instant the workflow pushes. The repository and branch are a contract with
+	# FEED_REPOSITORY and FEED_BRANCH in scripts/publish-appcast.sh and with the fetch in
 	# release-tip.yml; UpdaterChannelTests pins the three.
 	@updates path /appcast.xml /notes/*
 	handle @updates {
@@ -96,7 +96,7 @@
 		header >Cache-Control "public, max-age=900"
 
 		reverse_proxy https://raw.githubusercontent.com {
-			rewrite /macterm/macterm/appcast{uri}
+			rewrite /macterm/appcast/main{uri}
 			header_up Host raw.githubusercontent.com
 
 			# Where the bytes come from is not part of the contract with Sparkle,
