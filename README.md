@@ -90,7 +90,7 @@ A pull request in macterm/macterm that changes `docs/` or `assets/` runs this bu
 
 ### Update feed
 
-The site also serves the Sparkle feed: `/appcast.xml` and `/notes/<tag>.html`. The image does not contain them. The `Caddyfile` proxies them from the `appcast` branch, an orphan branch of macterm/macterm, and its comments explain the rules for that block.
+The site also serves the Sparkle feed: `/appcast.xml` and `/notes/<tag>.html`. The image does not contain them. The `Caddyfile` proxies them from the `main` branch of macterm/appcast, and its comments explain the rules for that block.
 
 > The origin is a contract with the app. `SUFeedURL` in `Macterm/Info.plist`, `SITE_URL` in `scripts/publish-appcast.sh` and `SITE_URL` in `build-docs.mjs` must all name this site. An installed app asks the URL that it was built with, forever. `UpdaterChannelTests` in macterm/macterm and `check-feed.mjs` here check them.
 

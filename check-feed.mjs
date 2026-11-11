@@ -2,8 +2,8 @@
 //
 // The app's SUFeedURL (Macterm/Info.plist) is baked into every installed copy,
 // so an app polls whatever origin it was built with for ever.
-// scripts/publish-appcast.sh writes the feed to the `appcast` branch, and the
-// Caddyfile here proxies /appcast.xml and /notes/* from that branch. If any of
+// scripts/publish-appcast.sh writes the feed to the `main` branch of macterm/appcast, and the
+// Caddyfile here proxies /appcast.xml and /notes/* from there. If any of
 // them drifts, installs check a URL that nobody writes to and report "up to
 // date" for the rest of their lives, with no error. The GitHub Pages feed of
 // before 1.26.0 stranded every install that way.
@@ -16,7 +16,6 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { MACTERM_DIR, SITE_DIR } from "./content.mjs";
-import { REPO } from "./releases.mjs";
 
 const read = (dir, path) => readFileSync(join(dir, path), "utf8");
 const infoPlist = read(MACTERM_DIR, "Macterm/Info.plist");
@@ -50,12 +49,14 @@ expect(caddyfile.includes("not path /notes/*"), "Caddyfile: /notes/* is not exem
 
 // The site proxies both paths from the branch that the publisher writes,
 // rather than serving them out of an image built long before the release.
+const feedRepo = publish.match(/^FEED_REPOSITORY="([^"]+)"$/m)?.[1];
+expect(feedRepo, "scripts/publish-appcast.sh: no FEED_REPOSITORY=\"…\" line");
 const branch = publish.match(/^FEED_BRANCH="([^"]+)"$/m)?.[1];
 expect(branch, "scripts/publish-appcast.sh: no FEED_BRANCH=\"…\" line");
 expect(caddyfile.includes("@updates path /appcast.xml /notes/*"), "Caddyfile: no @updates matcher");
 expect(
-  caddyfile.includes(`rewrite /${REPO}/${branch}{uri}`),
-  `Caddyfile: the proxy does not rewrite to /${REPO}/${branch}{uri}`
+  caddyfile.includes(`rewrite /${feedRepo}/${branch}{uri}`),
+  `Caddyfile: the proxy does not rewrite to /${feedRepo}/${branch}{uri}`
 );
 
 if (failures.length) {
@@ -63,4 +64,4 @@ if (failures.length) {
   for (const f of failures) console.error(`  - ${f}`);
   process.exit(1);
 }
-console.log(`check-feed: ${siteURL}/appcast.xml is served from ${REPO}@${branch}`);
+console.log(`check-feed: ${siteURL}/appcast.xml is served from ${feedRepo}@${branch}`);
