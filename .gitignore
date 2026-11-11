@@ -18,5 +18,6 @@ generated/
 # The checkout of macterm/macterm that the site renders (content.mjs).
 macterm/
 
-# Copied from macterm/assets by copy-assets.mjs.
+# Copied from macterm/assets and assets/demo by copy-assets.mjs.
 public/assets/
+public/schemas/

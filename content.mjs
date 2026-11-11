@@ -1,7 +1,6 @@
 // Where the site's content comes from: a checkout of macterm/macterm.
 //
-// The docs pages (docs/*.md) and the assets (assets/: icons, schemas, demo
-// clips) live in the app's repository, so that a feature and its docs land in
+// The docs pages (docs/*.md) and the assets (assets/: icons, schemas) live in the app's repository, so that a feature and its docs land in
 // one pull request there. This repository has the site that renders them.
 //
 // MACTERM_DIR names the checkout. Without it, the checkout is ./macterm, which
@@ -19,6 +18,8 @@ export const MACTERM_DIR = process.env.MACTERM_DIR
   : join(here, "macterm");
 export const PAGES_DIR = join(MACTERM_DIR, "docs");
 export const ASSETS_DIR = join(MACTERM_DIR, "assets");
+// The landing page's demo clips are in this repository, not in the checkout.
+export const DEMO_DIR = join(here, "assets", "demo");
 
 // Fails with the fix in the message, because a missing checkout otherwise
 // reads as "no .md files" or a missing image much later in the build.
