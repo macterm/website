@@ -133,11 +133,13 @@
 	# /notes/* are kept out of all three matchers — two `header` directives
 	# both naming Cache-Control on one response is not a decision, it's a race.
 	@media path /assets/* /img/*
+	# /schemas/* is the editors' address of the schemas. It changes with the
+	# app, so it revalidates like a page.
 	@static {
-		path *.css *.js *.xml *.txt
+		path *.css *.js *.xml *.txt /schemas/*
 		not path /appcast.xml
 	}
-	@pages not path /assets/* /img/* *.css *.js *.xml *.txt /notes/*
+	@pages not path /assets/* /img/* *.css *.js *.xml *.txt /notes/* /schemas/*
 	header @media Cache-Control "public, max-age=86400"
 	header @static Cache-Control "public, max-age=0, must-revalidate"
 	header @pages Cache-Control "public, max-age=0, must-revalidate"

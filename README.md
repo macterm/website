@@ -10,17 +10,19 @@ The docs pages and the assets are not in this repository. They are in [macterm/m
 public/            Static files that Caddy serves
   index.html       Landing page (written by hand)
   site.js          Shared behavior (copy buttons, docs menu, demo reel)
-  assets/          Copy of macterm/assets (icons, hero, demo clips, schemas) ── copied, do not edit ──
+  assets/          Copy of macterm/assets (icons, hero, schemas) and assets/demo ── copied, do not edit ──
+  schemas/         The *.schema.json files of macterm/assets ── copied, do not edit ──
   docs/            One HTML file for each docs page ── generated, do not edit ──
   img/             The OG card and the favicons ── generated, do not edit ──
   tokens.css       Compiled design tokens ── generated, do not edit ──
   components/      The bundle.css of the design system ── copied, do not edit ──
+assets/demo/       The demo clips and posters of the landing page (served as /assets/demo/…)
 src/
   docs-template.html  The shell that holds each rendered docs page
 design-system/     Vendored copy of the eyesclosed design system
 macterm/           Checkout of macterm/macterm (`bun run fetch`), or MACTERM_DIR
 content.mjs        Where the checkout is, and its docs/ and assets/
-copy-assets.mjs    Copies macterm/assets → public/assets/
+copy-assets.mjs    Copies macterm/assets and assets/demo → public/assets/, and the schemas → public/schemas/
 build-images.mjs   Renders assets/ images → public/img/
 build-docs.mjs     Renders macterm/docs/*.md → public/docs/<slug>.html, the
                    release notes → public/changelog.html, plus sitemap.xml
@@ -78,7 +80,7 @@ The site uses the **eyesclosed** design system and has no stylesheet of its own.
 
 ### Landing page
 
-The landing page plays one clip for each feature from `assets/demo/`. `scripts/record-demos/record-demos.sh` records the clips and encodes them for the web (see AGENTS.md). `index.html` sets their order. The comments in `site.js` explain the scrolling and the playback.
+The landing page plays one clip for each feature from `assets/demo/` in this repository. `scripts/record-demos/record-demos.sh` in macterm/macterm records the clips and encodes them for the web (see its AGENTS.md). Its `web` step writes into a checkout of this repository. `index.html` sets their order. The comments in `site.js` explain the scrolling and the playback.
 
 The text of a feature names the action, never the keys. A user can change every keybind.
 

@@ -9,6 +9,7 @@ macterm/.git/
 # host build in.
 node_modules/
 public/assets/
+public/schemas/
 public/docs/
 public/img/
 public/tokens.css
