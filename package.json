@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Marketing site and docs for Macterm — built by Bun, served by Caddy.",
   "scripts": {
-    "fetch": "git clone --filter=blob:none --no-checkout https://github.com/macterm/macterm.git macterm && git -C macterm sparse-checkout set --no-cone /docs/ /assets/ /Macterm/Info.plist /scripts/publish-appcast.sh && git -C macterm checkout main",
+    "fetch": "git clone --filter=blob:none --no-checkout https://github.com/macterm/macterm.git macterm && git -C macterm sparse-checkout set --no-cone /assets/ /Macterm/Info.plist /scripts/publish-appcast.sh && git -C macterm checkout main",
     "build:assets": "bun copy-assets.mjs",
     "build:docs": "bun build-docs.mjs",
     "build:img": "bun build-images.mjs",

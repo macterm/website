@@ -1,7 +1,7 @@
 // The `lastmod` of every sitemap entry, from git.
 //
-// A page's lastmod is the commit date of its source: docs/<file>.md in the
-// Macterm checkout (see content.mjs) for a docs page, public/index.html of this
+// A page's lastmod is the commit date of its source: docs/<file>.md of this
+// repository for a docs page, public/index.html of this
 // repository for the landing page. The file's mtime is no use: `git checkout`
 // sets it, and the image build copies a fresh clone, so every page would claim
 // to have changed on every deploy. Google discounts a lastmod that behaves that
@@ -32,7 +32,7 @@ import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
-import { MACTERM_DIR, PAGES_DIR, SITE_DIR } from "./content.mjs";
+import { PAGES_DIR, SITE_DIR } from "./content.mjs";
 
 // Written into generated/ so that the Containerfile's `COPY . ./` carries it.
 // Git ignores it.
@@ -84,10 +84,10 @@ export function lastModifiedDates() {
   const dates = {
     [LANDING_SOURCE]: commitDate(SITE_DIR, LANDING_SOURCE, shallowBoundary(SITE_DIR)),
   };
-  const boundary = shallowBoundary(MACTERM_DIR);
+  const boundary = shallowBoundary(SITE_DIR);
   for (const file of readdirSync(PAGES_DIR).filter((f) => f.endsWith(".md")).sort()) {
     const source = pageSource(file);
-    dates[source] = commitDate(MACTERM_DIR, source, boundary);
+    dates[source] = commitDate(SITE_DIR, source, boundary);
   }
   return dates;
 }

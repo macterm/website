@@ -3,8 +3,8 @@
 #     podman build --format docker -f Containerfile -t macterm-website .
 #
 # The build context is this repository with a checkout of macterm/macterm in
-# ./macterm (`bun run fetch`, or the workflow's second checkout). The docs
-# pages and the assets come from that checkout (see content.mjs).
+# ./macterm (`bun run fetch`, or the workflow's second checkout). The assets
+# come from that checkout (see content.mjs). The docs pages are in docs/ here.
 # .containerignore keeps both .git folders and every host build out.
 #
 # `--format docker` because the OCI image format has no HEALTHCHECK: podman's

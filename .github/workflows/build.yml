@@ -4,10 +4,10 @@ name: Build
 # it to ghcr.io. Pull requests build but push nothing, so a broken Containerfile
 # is caught before it can replace :latest.
 #
-# The site renders docs/ and serves assets/ of macterm/macterm, and its
+# The site renders its own docs/, serves assets/ of macterm/macterm, and its
 # changelog shows that repository's releases. website-dispatch.yml there sends
-# a repository_dispatch (macterm-content) when one of them changes, and this
-# workflow builds again from main of both repositories.
+# a repository_dispatch (macterm-content) when assets/ or a release changes,
+# and this workflow builds again from main of both repositories.
 #
 # arm64 only, built natively on an arm64 runner: the cluster that runs the site
 # is arm64, and nothing else pulls the image.
@@ -40,9 +40,8 @@ jobs:
       contents: read
       packages: write
     steps:
-      # The sitemap's <lastmod> is the commit date of each page, from both
-      # repositories. A clone with depth 1 has one commit for every file, and
-      # lastmod.mjs refuses a date from the edge of a shallow clone.
+      # The sitemap's <lastmod> is the commit date of each page. A clone with
+      # depth 1 has one commit for every file, and lastmod.mjs refuses a date from the edge of a shallow clone.
       - name: Check Out the Website
         uses: actions/checkout@v7
         with:
@@ -56,7 +55,6 @@ jobs:
           path: macterm
           fetch-depth: 0
           sparse-checkout: |
-            /docs/
             /assets/
             /Macterm/Info.plist
             /scripts/publish-appcast.sh
