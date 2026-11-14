@@ -92,7 +92,7 @@ The text of a feature names the action, never the keys. A user can change every 
 
 A pull request in macterm/macterm that changes `assets/` runs this build too (its `Docs / Site Build` check), against `main` of this repository.
 
-Three test suites of the app read these pages: `DocsLinkTests` (the Settings help buttons find their headings), `TextFileDefaultsTests` (the table of file types) and `CustomPaletteFileTests` (every example palette file reads). They read `docs/` of a checkout of this repository: `MACTERM_WEBSITE_DIR`, else `./website` in the app checkout. Keep these headings, the table and the captioned `yaml` blocks in step with the app. Name the app change in the pull request.
+Three test suites of the app read these pages: `DocsLinkTests` (the Settings help buttons find their headings), `TextFileDefaultsTests` (the table of file types) and `CustomPaletteFileTests` (every example palette file reads). They read `docs/` of a checkout of this repository: `MACTERM_WEBSITE_DIR`, else `./website` in the app checkout. Keep these headings, the table and the captioned `yaml` blocks in step with the app. Name the app change in the pull request. A pull request here that changes `docs/` runs `.github/workflows/docs-tests.yml`, which runs these suites from macterm/macterm. It uses the app branch with the same name as the docs branch, else `main`. Use the same branch name in both repositories.
 
 ### Update feed
 

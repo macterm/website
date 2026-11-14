@@ -1,0 +1,50 @@
+name: Docs Tests
+
+# Some unit tests of macterm/macterm read the pages in docs/: the Settings help
+# buttons must find their headings, the table of file types must match the app,
+# and each example palette file must read. This workflow runs them against the
+# commit of a pull request.
+#
+# The app branch with the same name as this branch is used if there is one, so
+# that a feature and its docs pass together. Otherwise the tests of main run.
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - ".github/workflows/docs-tests.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-tests-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  app-ref:
+    name: App Ref
+    runs-on: ubuntu-24.04-arm
+    outputs:
+      ref: ${{ steps.pick.outputs.ref }}
+    steps:
+      - name: Pick the App Ref
+        id: pick
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: ${{ github.head_ref }}
+        run: |
+          ref=main
+          if gh api "repos/macterm/macterm/branches/$BRANCH" --silent 2>/dev/null; then
+            ref="$BRANCH"
+          fi
+          echo "ref=$ref" >> "$GITHUB_OUTPUT"
+
+  docs-tests:
+    name: Docs Tests
+    needs: app-ref
+    uses: macterm/macterm/.github/workflows/docs-tests.yml@main
+    with:
+      website_ref: ${{ github.event.pull_request.head.sha }}
+      app_ref: ${{ needs.app-ref.outputs.ref }}
