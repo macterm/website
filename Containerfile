@@ -3,8 +3,8 @@
 #     podman build --format docker -f Containerfile -t macterm-website .
 #
 # The build context is this repository with a checkout of macterm/macterm in
-# ./macterm (`bun run fetch`, or the workflow's second checkout). The docs
-# pages and the assets come from that checkout (see content.mjs).
+# ./macterm (`bun run fetch`, or the workflow's second checkout). The assets
+# come from that checkout (see content.mjs). The docs pages are in docs/ here.
 # .containerignore keeps both .git folders and every host build out.
 #
 # `--format docker` because the OCI image format has no HEALTHCHECK: podman's
@@ -39,7 +39,7 @@ COPY package.json bun.lock ./
 RUN --mount=type=cache,target=/root/.bun/install/cache \
     bun install --frozen-lockfile
 
-# ---- build: render macterm/docs/*.md and compile the design tokens ---------
+# ---- build: render docs/*.md and compile the design tokens ---------
 FROM docker.io/oven/bun:1.4-alpine AS build
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
