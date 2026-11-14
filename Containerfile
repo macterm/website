@@ -39,7 +39,7 @@ COPY package.json bun.lock ./
 RUN --mount=type=cache,target=/root/.bun/install/cache \
     bun install --frozen-lockfile
 
-# ---- build: render macterm/docs/*.md and compile the design tokens ---------
+# ---- build: render docs/*.md and compile the design tokens ---------
 FROM docker.io/oven/bun:1.4-alpine AS build
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
