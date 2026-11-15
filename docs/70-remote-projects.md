@@ -65,12 +65,12 @@ Macterm names a remote tab after the program that runs in it, shows the logo of 
 
 [Project Insights](/docs/project-insights) records a command in a remote project only if the shell on the host sends prompt marks (OSC 133). Macterm does not turn on shell integration on the host. If the shell sends no marks, Project Insights records nothing for that project. The tab names, the busy dots and the confirmation before you close a pane do not depend on marks: they still work.
 
-Some setups send the marks already, for example Starship and fish 4 or later. If your shell on the host does not, add the lines below to its rc file. Do not add them to a shell that already sends marks: each mark would then come twice.
+If your shell on the host does not send the marks, add the lines below to the end of its rc file. Do not add them to a shell that already sends marks (fish 4 or later does): Macterm would see each mark twice. A prompt tool that rebuilds `PS1` at each prompt, such as Starship in bash, removes the marks from bash.
 
-For bash, add these lines to `~/.bashrc` on the host:
+For bash 4.4 or later, add these lines to `~/.bashrc` on the host. Macterm starts a login shell, so make sure your login profile loads `~/.bashrc`.
 
 ```bash
-__macterm_mark_d() { printf '\e]133;D;%s\a' "$?"; }
+__macterm_mark_d() { local s=$?; printf '\e]133;D;%s\a' "$s"; return "$s"; }
 PROMPT_COMMAND="__macterm_mark_d${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
 PS1='\[\e]133;A\a\]'"$PS1"'\[\e]133;B\a\]'
 PS0='\e]133;C\a'
@@ -78,7 +78,7 @@ PS0='\e]133;C\a'
 
 For zsh, add these lines to `~/.zshrc` on the host:
 
-```bash
+```zsh
 autoload -Uz add-zsh-hook
 __macterm_precmd() { print -n "\e]133;D;$?\a"; }
 __macterm_preexec() { print -n "\e]133;C\a"; }
@@ -87,7 +87,7 @@ add-zsh-hook preexec __macterm_preexec
 PS1=$'%{\e]133;A\a%}'"$PS1"$'%{\e]133;B\a%}'
 ```
 
-Open a new tab to use the change. We tested these lines on Debian with bash 5 and zsh 5: each prompt and each command sent `133;A`, `133;B`, `133;C` and `133;D` with the exit code. In bash, the first prompt also sends a `133;D;0` before any command. The lines use the mark format of Ghostty, so Macterm reads the command text from the prompt in the same way as on your Mac.
+Open a new tab to use the change. The lines were tested on Debian 12 with bash 5.2 and zsh 5.9. Each prompt and each command sent `133;A`, `133;B`, `133;C` and `133;D` with the exit code. In both shells, the first prompt also sends a `133;D;0` before any command. The test checked the marks in a pty. It did not check Macterm's records.
 
 ## Layouts
 
