@@ -63,6 +63,8 @@ The action **Where Did I Leave Off** returns the same answer as text, for a proj
 
 Macterm records a command when the shell reports that it finished (OSC 133). This needs [shell integration](/docs/configuration). The terminal gives Macterm the command as you typed it, from the cells of the prompt where you typed, at the moment the output starts. A command that clears the screen, such as `clear`, is recorded too, and a right prompt or an autosuggestion is not part of it. The output tail of a failed command comes from the screen after the next prompt shows. If Macterm cannot read the command, it records nothing. A tab that two windows show records each command one time.
 
+In a [remote project](/docs/remote-projects#project-insights-on-a-host), the shell on the host must send these marks.
+
 Macterm does not record:
 
 - A command that starts with a space. This is the `HISTCONTROL=ignorespace` convention of shells.
