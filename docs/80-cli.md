@@ -63,7 +63,6 @@ The grammar is `macterm <noun> <verb> [options]`. A noun with no verb means `lis
 | `pane inspect [target]` | Shows a snapshot of the terminal core of a pane. It needs a live surface. |
 | `pane dump [--scrollback] [target]` | Prints the terminal text of a pane. It prints text only, so you can use it in a pipeline. |
 | `pane split [--direction right\|left\|down\|up\|auto] [--run CMD] [--no-focus] [target]` | Splits a pane. The new pane gets the cwd of the pane. `auto` selects the longer axis. `--no-focus` keeps the current focus and zoom. |
-| `pane mirror [--direction …] [target]` | Shows the same session in a second pane. When you focus a mirror, it becomes the leader and the other pane dims. |
 | `pane focus <target>` | Focuses a pane. It selects the tab, brings the window forward and restores keyboard focus. |
 | `pane focus --direction left\|down\|up\|right [target]` | Focuses the nearest pane in that direction. At the outermost edge, it does nothing and gives no error. |
 | `pane close (--pane P \| --session S) [--force]` | Closes a pane. It always needs an explicit target. |
