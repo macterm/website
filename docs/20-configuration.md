@@ -150,6 +150,11 @@ Go to **Settings → Animations**. Smooth scrolling, snap to whole row and split
 | **Morph cursor while moving** | Works with smooth cursor. A block cursor becomes a comet while it moves: a round head where the cursor is, and a body that gets thinner behind it. A faster move makes a longer comet, up to 2.5 cell heights. The cursor lands as a block. A move of one cell height or less has no comet, so typing looks the same. A jump of a few columns or more gets a short comet. A bar, an underline or a hollow block cursor does not change. Off by default. |
 | **Cursor trail** | A fading streak follows the cursor on larger moves. It is under the text. If you use a community trail shader, turn it off. Otherwise you see two trails. |
 
+The Scrolling group and the Cursor group each have a live preview under their toggles. A change of a toggle applies to the preview at once.
+
+- **Scrolling**: scroll the numbered rows with the wheel or the trackpad.
+- **Cursor**: click anywhere in the text to move the cursor. The cursor has the shape and the blink of your ghostty config (`cursor-style`, `cursor-style-blink`).
+
 ## Running without a Dock icon
 
 Set `macos-hidden = always` to run Macterm as an accessory app. Use it to work from the [quick terminal](/docs/quick-terminal). The window, the sidebar, the sessions and every keybind keep working. `macterm window focus` still brings a window forward.
