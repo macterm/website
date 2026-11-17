@@ -16,7 +16,7 @@ A remote project is a project whose folder is on another machine. Each pane is a
 
 **Linux (x86_64 or aarch64) or macOS on the host.** At the first connection to a host, Macterm asks to install its server there, in `~/.local/share/macterm`. The server comes from Macterm, not from the internet of the host, and the host checks its checksum. Later versions install with no question.
 
-If you choose **Continue Without Server**, each pane is a plain SSH shell. It ends when the connection stops, and its tab shows no program name. To install the server later, open the menu of the project in **Settings → Projects** and choose **Install Server on Host…**. A host with no build (for example, BSD) also gets plain shells.
+If you choose **Continue Without Server**, each pane is a plain SSH shell. It ends when the connection stops, and its tab shows no program name. The project's row in the sidebar shows a mark (an exclamation point in a circle). Put the pointer on the mark to see the reason. To install the server later, open the menu of the project in **Settings → Projects** and choose **Install Server on Host…**. A host with no build (for example, BSD) also gets plain shells.
 
 **Windows hosts are not supported.** When the SSH shell of the host is `cmd.exe` or PowerShell, the pane says that the host runs Windows and that Macterm does not support it.
 
