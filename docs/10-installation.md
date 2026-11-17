@@ -34,7 +34,7 @@ Macterm checks for updates each day. It downloads an update automatically and in
 
 - While Macterm downloads an update, the toolbar shows **Downloading…** with a progress ring.
 - When the update is ready, the toolbar shows **Restart to Update**. Click it to install the update and start Macterm again. Your sessions continue after the restart. If you do not click it, the update installs when you quit Macterm.
-- To check now, choose **Macterm → Check for Updates…** or **Settings → Updates → Check for Updates Now**. If no update is available, Macterm shows "Macterm is up to date". If the check or the download fails, Macterm shows one line about the failure.
+- To check now, choose **Macterm → Check for Updates…** or **Settings → Updates → Check for Updates Now**. If you have the newest version, Macterm shows "Macterm is up to date". If the check or the download fails, Macterm shows one line about the failure.
 
 Macterm does not show release notes. Read them on the [changelog](/changelog).
 
