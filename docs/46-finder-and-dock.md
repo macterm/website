@@ -47,7 +47,6 @@ Above the toggle, a preview shows the icon that the Dock shows now. When the Doc
 The Dock icon does not change in these conditions:
 
 - The icon style of macOS is Clear or Tinted (**System Settings → Appearance → Icon & widget style**). macOS then draws the icon in that style.
-- You set `macos-icon = custom`. Your image is the Dock icon. See [Keys with no Settings equivalent](/docs/configuration#keys-with-no-settings-equivalent).
 - Macterm is not running. Finder, Launchpad and the Dock then show the icon in its usual colors.
 - The palette has no gray that is different from `background`. The Dock then shows the icon in its usual colors.
 
