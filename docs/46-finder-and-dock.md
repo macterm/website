@@ -42,7 +42,7 @@ The icon was drawn in eyesclosed, the default theme of Macterm. With eyesclosed,
 
 To turn it off, go to **Settings → Appearance → App Icon** and clear **Adaptive icon**.
 
-Above the toggle, a preview shows the icon that the Dock shows now. When the Dock follows the light and dark appearance of macOS, the preview shows both icons. A theme with a light and a dark side (`theme = light:…,dark:…`) shows only the icon of the side in use. When the icon style or the theme stops the theme colors, a line under the toggle tells you why. In the Clear or Tinted icon style, macOS draws the Dock icon in its own style. The preview then shows no icon, only that line.
+Above the toggle, a preview shows the icon that the Dock shows now. When the Dock follows the light and dark appearance of macOS, the preview shows both icons. A theme with a light and a dark side (`theme = light:…,dark:…`) shows only the icon of the side in use. In the Clear or Tinted icon style, the setting has no effect, and its description says so. macOS then adds its style to the Dock icon, so the Dock icon can look different from the preview. When the theme has no gray to paint the icon with, a line under the toggle tells you why.
 
 The Dock icon does not change in these conditions:
 
