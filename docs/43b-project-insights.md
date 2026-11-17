@@ -30,7 +30,7 @@ When it is on, Macterm records the commands that finish in all your projects. Th
 
 ## Open the panel
 
-Press <kbd>⌘</kbd><kbd>I</kbd>, or click the panel button in the toolbar. You can also run **Toggle Project Insights** from the command palette or from the **View** menu. Each window opens and closes the panel on its own. The command acts on the window that you use, and the panel button acts on its own window. Each window shows the panel of its own project. When you start Macterm again, each window opens with the panel as you left it. A new window opens with the panel closed.
+Press <kbd>⌘</kbd><kbd>I</kbd>, or click the panel button in the toolbar. You can also run **Toggle Project Insights** from the command palette or from the **View** menu. Each window opens and closes the panel on its own, and shows the panel of its own project. A new window opens with the panel closed. When you start Macterm again, each window shows the panel as you left it.
 
 The panel floats over the right side of the terminal. It does not make your panes smaller. To hide it, press <kbd>⌘</kbd><kbd>I</kbd> again or click the panel button in the toolbar. The project icon in the panel is the icon that you chose in **Settings → Appearance → Project icon**, with the color of the project.
 
