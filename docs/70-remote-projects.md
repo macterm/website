@@ -41,6 +41,10 @@ Go to **Sidebar → + → Remote Machine…**
 
 You can also type `devbox:~/dev/api` in the command palette (<kbd>⌘P</kbd>) and select **Add remote project**.
 
+Before Macterm adds the project, it connects to the host and checks that the directory is there. This is the first connection, so the login and the question about the server come now. If the directory is not on the host, or if the host does not answer, Macterm adds no project and tells you why. `macterm project create devbox:~/dev/api` does the same check.
+
+If the directory of a project that exists is removed later, a new pane starts in the home directory and shows one `macterm:` line.
+
 ## How panes behave
 
 | Action | Effect |
