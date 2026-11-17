@@ -57,6 +57,14 @@ A pane that lost its connection keeps its last screen, blurred and dimmed. Macte
 
 When a connection fails, the pane says why, for example `No host is named devbox.` or `devbox does not answer.` Press a key to try again.
 
+### The roaming link
+
+After the first connection, Macterm opens a second path to the host over UDP. If it works, a pane comes back after sleep or a new network with no login and no prompt. It uses a port from 60001 to 60999 on the host. Macterm opens the port only while a link is up. If UDP does not get through, nothing changes: the panes use ssh.
+
+The link does not work for a host that you reach through `ProxyJump` or `ProxyCommand`. To turn it off for one host, set `MACTERM_LINK=off` in the environment of its server. To limit its ports, set `MACTERM_LINK_PORTS=first-last`. Macterm never changes a firewall: if the host has one, open the ports.
+
+A link that hears nothing for 5 minutes of awake time ends. Its panes then connect again with ssh.
+
 ### Tab names and busy panes
 
 Macterm names a remote tab after the program that runs in it, shows the logo of a coding agent, and asks before it closes a pane whose program still runs. The server on the host tells the pane about each change of its foreground process, through the connection of the pane itself. The name follows the host at once.
