@@ -27,3 +27,15 @@ xattr -cr /Applications/Macterm.app
 ```
 
 After that, Sparkle installs updates. You do not need `xattr` again.
+
+## Updates
+
+Macterm checks for updates each day. It downloads an update automatically and installs it when you quit Macterm. Macterm shows no dialog for an update:
+
+- While Macterm downloads an update, the toolbar shows **Downloading…** with a progress ring.
+- When the update is ready, the toolbar shows **Restart to Update**. Click it to install the update and start Macterm again. Your sessions continue after the restart. If you do not click it, the update installs when you quit Macterm.
+- To check now, choose **Macterm → Check for Updates…** or **Settings → Updates → Check for Updates Now**. If no update is available, Macterm shows "Macterm is up to date". If the check or the download fails, Macterm shows one line about the failure.
+
+Macterm does not show release notes. Read them on the [changelog](/changelog).
+
+With no window open, use the menu item: while an update is ready, **Check for Updates…** is **Restart to Update**. An app with no menu bar (`macos-hidden = always`) installs the update when you quit it.
