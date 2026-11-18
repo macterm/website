@@ -87,11 +87,11 @@ Anyone can install the extensions in **Settings → Extensions**. They are folde
 
 ### Updates
 
-An installed extension is your copy. You can change it in the same way as an extension that you wrote. Macterm never changes your changes.
+An installed extension is your copy. You can change it in the same way as an extension that you wrote. Macterm never replaces your changes without asking.
 
 When you install an extension, Macterm records each of its files in a hidden file in its folder, `.source.json`. When Settings → Extensions opens, Macterm compares your copy with that record and with the version in the repository:
 
-- **The repository changed the extension, and you did not change your copy.** The card shows an Update button (<kbd>↓</kbd> in a filled circle). Click it to get the new version.
+- **The repository changed the extension, and you did not change your copy.** Macterm updates your copy automatically (see below). Until then, the card shows an Update button (<kbd>↓</kbd> in a filled circle). Click it to get the new version now.
 - **You changed your copy, and the repository did not change the extension.** The card shows no Update button. Your copy stays as it is.
 - **You changed your copy, and the repository also changed the extension.** The card shows the Update button. Before it updates, Macterm asks you. Your changed copy goes to the Trash.
 - **The folder has no `.source.json`.** This is an extension that you wrote, copied by hand, or installed with an older version of Macterm. If it is the same as the version in the repository, Macterm writes the record. If it is different, the Update button asks before it puts your copy in the Trash.
