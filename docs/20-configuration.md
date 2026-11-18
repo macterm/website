@@ -55,6 +55,7 @@ Macterm draws the window chrome itself. It ignores or forces these keys:
 | titlebar, window-decoration, split-divider and quick-terminal keys | Settings |
 | `bell-features = title`, `border` | Not implemented |
 | `macos-non-native-fullscreen` | Not implemented. Full screen is always native. |
+| `macos-icon`, `macos-custom-icon` | Not implemented. The Dock shows the [adaptive icon](/docs/finder-and-dock#adaptive-icon) or the usual icon. |
 
 `background-opacity-cells` works as in Ghostty (Macterm sets it to `true` by default). All other keys work as the upstream docs describe them. This includes `bell-features = system`, `audio` and `attention` (`attention` puts a badge on the Dock icon with the number of tabs that wait for you), `mouse-scroll-multiplier` and `custom-shader`.
 
@@ -66,7 +67,6 @@ Macterm draws the window chrome itself. It ignores or forces these keys:
 | `split-inherit-working-directory` | The same, for splits. |
 | `focus-follows-mouse` | `true` focuses the pane under the pointer in the active window, as a click on the pane does. It never takes focus from the command palette, the search bar or a rename field. |
 | `macos-shortcuts` | Controls access to [Shortcuts](/docs/shortcuts): `ask` (default), `allow` or `deny`. |
-| `macos-icon = custom` and `macos-custom-icon` | Replaces the Dock icon. The value is the absolute path to a PNG, JPEG or ICNS file. Macterm ignores other `macos-icon` values. A custom icon replaces the [adaptive icon](/docs/finder-and-dock#adaptive-icon). |
 | `macos-hidden = always` | Runs Macterm with no Dock icon, no menu bar, and no <kbd>⌘</kbd><kbd>⇥</kbd> entry. See below. |
 
 ## Macterm settings
