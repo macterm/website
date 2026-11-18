@@ -39,7 +39,11 @@ Go to **Sidebar → + → Remote Machine…**
 | **Host** | `devbox`, `user@host` or any alias from your ssh config |
 | **Directory** | `~/dev/api`, `/srv/app`, or a path that is relative to the remote home |
 
-You can also type `devbox:~/dev/api` in the command palette (<kbd>⌘P</kbd>) and select **Add remote project**.
+You can also type `devbox:~/dev/api` in the command palette (<kbd>⌘P</kbd>) and select **Add remote project**. The same dialog opens with the fields filled in, and the check below starts at once.
+
+Before Macterm adds the project, it connects to the host and checks that the folder is there. This is the first connection, so the login and the question about the server come now. Macterm checks the folder before it asks about the server, and the question about the server shows in the same dialog. If you do not type a name, the project gets the name of the folder. If the folder is not on the host, or if the host does not answer, Macterm adds no project and tells you why. **Add** stays off until you change a field. `macterm project create devbox:~/dev/api` does the same check.
+
+If the folder of a project that you already have is removed later, a new pane starts in the home folder and shows one `macterm:` line.
 
 ## How panes behave
 
