@@ -63,7 +63,7 @@ When a connection fails, the pane says why, for example `No host is named devbox
 
 ### The roaming link
 
-After the first connection, Macterm opens a second path to the host over UDP. If it works, a pane comes back after sleep or a new network with no login and no prompt. When the host stops answering for 10 seconds or more and then answers again over this path, the panes of the open project that lost the connection connect again within a few seconds. The path uses a port from 60001 to 60999 on the host. Macterm opens the port only while a link is up. If UDP does not get through, nothing changes: the panes use ssh.
+After the first connection, Macterm opens a second path to the host over UDP. If it works, a pane comes back after sleep or a new network with no login and no prompt. When the host stops answering for 5 seconds or more and then answers again over this path, the panes of the open project that lost the connection connect again within a few seconds. The path uses a port from 60001 to 60999 on the host. Macterm opens the port only while a link is up. If UDP does not get through, nothing changes: the panes use ssh.
 
 The link does not work for a host that you reach through `ProxyJump` or `ProxyCommand`. To turn it off for one host, set `MACTERM_LINK=off` in the environment of its server. To limit its ports, set `MACTERM_LINK_PORTS=first-last`. Macterm never changes a firewall: if the host has one, open the ports.
 
