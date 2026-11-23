@@ -37,7 +37,7 @@ The grammar is `macterm <noun> <verb> [options]`. A noun with no verb means `lis
 | Command | Description |
 |---|---|
 | `status` | Shows the version, the pid and the active project. Exits with a non-zero code if no app is reachable. |
-| `project list` | Lists all projects with refs (`project:1`), active and loaded markers, and tab counts. |
+| `project list` | Lists all projects with refs (`project:1`), active and loaded markers, and tab counts. A project in a sidebar group also shows the name of its group (`group` in `--json`, empty at the top level). |
 | `project create <path> [--name N] [--select]` | Adds a project for a local directory or a [remote spec](/docs/remote-projects). **It is not idempotent.** Each run adds a new project. `--name` defaults to the name of the directory and cannot be empty. `Pinned` is a reserved name. `--name Pinned` is refused, and a directory with the name Pinned is added as `Pinned 2`. |
 | `project select <name\|uuid\|index> [--window W]` | Makes a project active. `pinned` selects the pinned tabs. |
 | `project rename <project> <name>` | Renames a project. `Pinned` is a reserved name. |
@@ -94,7 +94,7 @@ In an automation, select the app with `--socket`. When the running app is too ol
 
 ## Targeting a pane
 
-Projects and tabs accept a **name**, a **UUID** or the **index** from the list output, counted from 1 (`3` or `tab:3`). A name that two items have gives an `ambiguous` error. The CLI never selects the first match in silence.
+Projects and tabs accept a **name**, a **UUID** or the **index** from the list output, counted from 1 (`3` or `tab:3`). A name that two items have gives an `ambiguous` error. The CLI never selects the first match in silence. Project indexes count projects in sidebar order, also inside groups. A group is not a project: no name, UUID or index selects it.
 
 Pane commands find their target in this order:
 
