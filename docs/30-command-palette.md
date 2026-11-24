@@ -17,7 +17,7 @@ Press <kbd>⌘P</kbd>. One list searches everything:
 **To change the project tree from the keyboard**, use these commands. Each one acts on the current project. They are also in the **Project** menu.
 
 - **New Project Inside** opens a folder. The new project goes inside the current project.
-- **Move Into Project** opens a screen. Type the path of names of a project, for example `Work/api`, or select a project in the list under the field. Then press <kbd>↩</kbd> on the **Move into** row.
+- **Move Into Project** opens a list of the projects that the current project can move into, each with its path of names (`Work/api`). Type a name or a path to filter the list. Select a project and press <kbd>↩</kbd> to move the current project into it.
 - **Move Out of Project** moves the current project out of its parent. It shows only for a project inside another project.
 
 **To open a folder as a project**, type a path that starts with `/` or `~`. The palette changes to path mode and completes folder names.
