@@ -18,8 +18,8 @@ Press <kbd>⌘P</kbd>. One list searches everything:
 
 **New Project** (<kbd>⌘O</kbd>) opens the New Project screen. The **New Project** button at the bottom of the sidebar, **File → New Project…** and the Dock menu also open it.
 
-- Type the path of a folder and press <kbd>Return</kbd>. If a project already has that folder, Macterm selects that project. A remote spec opens the New Remote Project dialog.
-- The screen completes folder names. Press <kbd>Tab</kbd> to put the selected name in the field.
+- Type the path of a folder. The rows are the same as in path mode. Press <kbd>Return</kbd> to add the selected folder as a project. If a project already has that folder, the top row selects that project, and the row below adds another project. A remote spec opens the New Remote Project dialog.
+- Press <kbd>Tab</kbd> to put the selected folder in the field.
 - To select the folder in a panel, select **Select in Finder**, the first row.
 
 **To add a remote project**, type a spec such as `devbox:~/dev/api`. See [remote projects](/docs/remote-projects).
