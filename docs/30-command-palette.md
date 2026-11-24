@@ -16,6 +16,8 @@ Press <kbd>⌘P</kbd>. One list searches everything:
 
 **To open a folder as a project**, type a path that starts with `/` or `~`. The palette changes to path mode and completes folder names.
 
+**New Project** (<kbd>⌘O</kbd>) opens the New Project screen. The **New Project** button at the bottom of the sidebar, **File → New Project…** and the Dock menu also open it. Type the path of a folder and press <kbd>Return</kbd>. The screen completes folder names: press <kbd>Tab</kbd> to put the selected name in the field. If a project already has that folder, Macterm selects that project. A remote spec opens the New Remote Project dialog. To select the folder in a panel, select **Select in Finder**, the first row. A search for "open project" or "add project" also finds the command.
+
 **To add a remote project**, type a spec such as `devbox:~/dev/api`. See [remote projects](/docs/remote-projects).
 
 Some commands open a screen of their own in the palette. A pill above the palette names the screen. In the list, a row for such a screen shows the icon of the screen and a chevron. A screen can open another screen. The pills then show a trail, with the root first. Click a pill to go back to it. Press <kbd>Esc</kbd> to go back one screen. You can also press <kbd>Delete</kbd> with nothing typed. A held <kbd>Delete</kbd> clears the search and stops at the empty field.
