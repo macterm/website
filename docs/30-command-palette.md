@@ -24,7 +24,7 @@ A screen that must wait for its list shows a spinner. If the list fails, the scr
 
 **Some rows have a second action** under <kbd>⌥</kbd>. Hold the key. The subtitle of the row then names what <kbd>⌥↩</kbd> (or an ⌥-click) does.
 
-**Rename Current Tab** (<kbd>⌘R</kbd>) and **Rename Current Project** ask for the new name in the palette. The field shows the current name, selected. Press <kbd>Return</kbd> to rename, or <kbd>Esc</kbd> to keep the name. To give a tab its automatic name again, clear the field and press <kbd>Return</kbd>. You can also double-click a row in the sidebar to rename it there.
+**Rename Current Tab** (<kbd>⌘R</kbd>) and **Rename Current Project** ask for the new name in the palette. The field shows the current name, selected. When you type a new name, the row **Rename to "name"** shows under the field. Press <kbd>Return</kbd> on that row to rename, or <kbd>Esc</kbd> to keep the name. To give a tab its automatic name again, clear the field: the row changes to **Use the automatic name**. If a project cannot have the name, the palette shows the reason and no row. You can also double-click a row in the sidebar to rename it there.
 
 Each screen can have its own keybind in Settings → Keymaps, under **Palettes**, next to <kbd>⌘P</kbd>. No screen has a keybind by default. The keybind opens the palette on that screen. Press it again on that screen to close the palette. Press it on another screen to go to its screen.
 
