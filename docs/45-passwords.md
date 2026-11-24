@@ -81,7 +81,7 @@ A pane of a remote project runs its shell on the host. A password prompt there, 
 - **A host has no shared entries.** Macterm cannot know which program on a host asks. A host therefore has no shared `sudo` entry and no shared key passphrase entry. Each command has its own entry.
 - **Touch ID does not change.** Macterm asks for Touch ID or your login password on your Mac before it types a saved password, as it does for a local password prompt. Macterm sends the password to the host only as typed keys.
 - **The palette does not press Return on a host.** When you select a saved password in the Password Manager of the palette, Macterm types it and leaves Return to you. Autofill in the bubble presses Return.
-- **The palette shows the host after the command.** Settings → Password Manager does not show the host. In **Details…**, change only the password of a host entry. If you change its command or its password prompt, the entry becomes an entry of your Mac.
+- **The host shows after the command.** The palette and Settings → Password Manager show the host in parentheses. When you change a host entry in **Details…**, the entry stays an entry of that host.
 
 The bubble needs Macterm's server on the host. That server tells Macterm when the shell on the host reads a password. In these cases, no bubble appears, and the password prompt shows in the pane as usual. Type the password, or [type a saved password on demand](#typing-a-password-on-demand).
 
