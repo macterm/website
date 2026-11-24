@@ -32,7 +32,7 @@ Host devbox
 
 ## Creating one
 
-Go to **Sidebar → + → Remote Machine…**
+Right-click an empty area of the sidebar and select **New Project → Remote Machine…**. You can also use the **New Remote Project** command, or type a remote spec on the New Project screen of the [command palette](/docs/command-palette).
 
 | Field | Value |
 | --- | --- |
