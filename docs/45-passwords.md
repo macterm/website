@@ -31,12 +31,12 @@ If a saved password stops working, the bubble says so. Type the new password. Wh
 
 ## Typing a password on demand
 
-Macterm cannot see some password prompts. Examples: `sudo` on a server that you reached with `ssh`, and a prompt inside tmux. A password that you added yourself can also have no prompt. For these cases, open the command palette (<kbd>⌘P</kbd>) and select **Password Manager**. You can also go there with **View → Password Manager**, or with a keybind that you give to **Password Manager** in Settings → Keymaps. It has no keybind by default. If you press the keybind again, the palette closes. The palette shows your saved passwords. Type to search them by command or by prompt. Select one to type it into the focused pane. Press <kbd>Esc</kbd>, or press <kbd>Delete</kbd> with nothing typed, to go back to the full palette.
+Macterm cannot see some password prompts. Examples: `sudo` on a server that you reached with an `ssh` command that you typed in a pane, and a prompt inside tmux. A password that you added yourself can also have no prompt. For these cases, open the command palette (<kbd>⌘P</kbd>) and select **Password Manager**. You can also go there with **View → Password Manager**, or with a keybind that you give to **Password Manager** in Settings → Keymaps. It has no keybind by default. If you press the keybind again, the palette closes. The palette shows your saved passwords. Type to search them by command or by prompt. Select one to type it into the focused pane. Press <kbd>Esc</kbd>, or press <kbd>Delete</kbd> with nothing typed, to go back to the full palette.
 
 As with Autofill, Macterm types the password after Touch ID. Your selection is the permission. Nothing asks whether the pane is at a password prompt. Macterm only decides if it presses Return after the password:
 
-- **At a password prompt that Macterm can see** (input by line, echo off), Macterm presses Return, as Autofill does.
-- **At any other place**, Macterm types the password and leaves it for you. Examples: ssh or tmux that relays the prompt of a server, the prompt of your shell, or a line that shows what you type. Press <kbd>Return</kbd> to send the password. If it landed in the wrong place, clear it. Nothing ran. For `sudo` on a server, this is one extra Return.
+- **At a password prompt on your Mac that Macterm can see** (input by line, echo off), Macterm presses Return, as Autofill does.
+- **At any other place**, Macterm types the password and leaves it for you. Examples: ssh or tmux that relays the prompt of a server, the prompt of your shell, or a line that shows what you type. Press <kbd>Return</kbd> to send the password. If it landed in the wrong place, clear it. Nothing ran. For `sudo` on a server, this is one extra Return. This is also true on the host of a remote project.
 
 ## Adding a password yourself
 
@@ -60,6 +60,7 @@ Examples:
 - **`ssh foo` in two different projects.** Passwords do not belong to a project. If both projects run the same command and see the same prompt, they share one entry.
 - **Two machines that both have the name `foo`.** The prompt of ssh names the host that ssh really connects to. This is the `HostName` from your `~/.ssh/config`. It is not the alias that you typed. Aliases for different machines therefore get different entries. But the same name can reach two different machines, for example on a different network, with a different DNS or with a VPN. Then the command and the prompt are the same, and Macterm cannot tell them apart. It offers the same saved password on both machines. ssh checks the host key before it asks for a password. If a machine is not the one in your `known_hosts`, ssh gives its own warning first. If you use the same name for different machines, save the password for only one of them, or save none.
 - **The own login of a remote project.** Macterm files it under `ssh user@host` from the path of the project. Two remote projects on the same host share it.
+- **A password prompt on the host of a remote project.** Macterm also files it under the host. See [Password prompts on a remote host](#password-prompts-on-a-remote-host).
 
 There are two exceptions to the command rule:
 
@@ -72,16 +73,34 @@ If Macterm cannot tell which program asks, it offers no Autofill and no save for
 
 **Details…** in Settings → Password Manager shows the exact command and the prompt that an entry matches. You can edit them. If you clear the prompt, the entry is only for the palette. You cannot clear the command. An entry for a prompt from any command (a key passphrase) stays that way.
 
+## Password prompts on a remote host
+
+A pane of a remote project runs its shell on the host. A password prompt there, for example `sudo` on the host, shows the same bubble as a password prompt on your Mac. **Save Password?** and **Autofill** work as described above.
+
+- **Each entry belongs to one host.** Macterm files it under the ssh destination as your Mac resolves it (`ssh -G`): `user@hostname:port`. An alias in `~/.ssh/config` therefore gets the entry of the host that it names. An entry of a host never matches a password prompt on your Mac, or on a host with a different `user@hostname:port`. As with `ssh`, two machines that have the same name are one host to Macterm.
+- **A host has no shared entries.** Macterm cannot know which program on a host asks. A host therefore has no shared `sudo` entry and no shared key passphrase entry. Each command has its own entry.
+- **Touch ID does not change.** Macterm asks for Touch ID or your login password on your Mac before it types a saved password, as it does for a local password prompt. Macterm sends the password to the host only as typed keys.
+- **The palette does not press Return on a host.** When you select a saved password in the Password Manager of the palette, Macterm types it and leaves Return to you. Autofill in the bubble presses Return.
+- **The palette shows the host after the command.** Settings → Password Manager does not show the host. In **Details…**, change only the password of a host entry. If you change its command or its password prompt, the entry becomes an entry of your Mac.
+
+The bubble needs Macterm's server on the host. That server tells Macterm when the shell on the host reads a password. In these cases, no bubble appears, and the password prompt shows in the pane as usual. Type the password, or [type a saved password on demand](#typing-a-password-on-demand).
+
+- **The host has plain SSH shells**, because you chose **Continue Without Server** (see [Remote projects](/docs/remote-projects)).
+- **The pane started under a server that an older version of Macterm installed.** Macterm replaces an older server when it connects, but a session keeps the server version that started it. Open a new pane to get the bubble.
+- **Your Mac cannot resolve the destination with `ssh -G`.** Macterm then cannot tell which host asks, so it offers nothing. The first password prompt right after a connection can also come before the resolution ends.
+
+An `ssh` command that you typed in a pane shows no bubble on any host. Macterm sees only the local ssh client, which reads your keys in raw mode. Macterm cannot see a password prompt on the far side of that ssh.
+
 ## Where passwords are stored
 
 Macterm stores passwords in your **login keychain** (`~/Library/Keychains/login.keychain-db`). This is the file-based keychain where most Mac apps keep their passwords. Each password is one generic-password item:
 
 | Keychain Access field | Value |
 | --- | --- |
-| **Name** | `Macterm: <command>` |
+| **Name** | `Macterm: <command>`. For an entry of a host, the host follows in parentheses. |
 | **Kind** | Macterm terminal password |
 | **Where** (service) | `com.thdxg.macterm.passwords` |
-| **Account** | The command and the prompt that it matches |
+| **Account** | The command and the prompt that it matches. For an entry of a host, `<host> ›` comes first. |
 
 You can see the items in **Keychain Access** (login keychain → Passwords, search "Macterm"). Macterm does **not** sync them to iCloud Keychain or to your other Macs. If you remove Macterm, the items stay. Remove them first in Settings → Password Manager, or in Keychain Access.
 
@@ -115,4 +134,4 @@ To turn the feature off, switch off **Enable password manager**. Macterm then ne
 
 ## Limits
 
-Macterm detects a password prompt by the terminal mode in which the program reads it (input by line, echo off). Ghostty and iTerm2 use the same rule for secure input. This covers local panes and the own ssh login of a remote project. It does not cover a prompt on a remote host inside an ssh session, for example `sudo` on a server. It also does not cover prompts that draw their own `*` characters. For these, [type the password on demand](#typing-a-password-on-demand).
+Macterm detects a password prompt by the terminal mode in which the program reads it (input by line, echo off). Ghostty and iTerm2 use the same rule for secure input. This covers local panes, the own ssh login of a remote project, and the panes of a remote project that run on Macterm's server. It does not cover a password prompt after an `ssh` command that you typed in a pane, for example `sudo` on a server that you reached that way. It also does not cover prompts that draw their own `*` characters. For these, [type the password on demand](#typing-a-password-on-demand).
