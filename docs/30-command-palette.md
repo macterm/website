@@ -12,7 +12,13 @@ Press <kbd>⌘P</kbd>. One list searches everything:
 
 - **Palettes**: the screens below. This is the first section after your recent projects. A row with an icon and a chevron opens a screen in the same place.
 - **Commands**: split, close and focus panes. Create, rename, pin and switch tabs. Show or hide parts of the window. Each row shows its current keybind.
-- **Projects**: go to any project. With nothing typed, the recent projects are first. Under a project inside another project, the palette shows the names of the projects above it (`Work / api`). Under a project at the top level, it shows the folder. A search also finds a project by those names. Rename or remove the current project with its commands.
+- **Projects**: go to any project. With nothing typed, the recent projects are first. Under a project inside another project, the palette shows the names of the projects above it (`Work/api`). Under a project at the top level, it shows the folder. A search also finds a project by those names. Rename or remove the current project with its commands.
+
+**To change the project tree from the keyboard**, use these commands. Each one acts on the current project. They are also in the **Project** menu.
+
+- **New Project Inside** opens a folder. The new project goes inside the current project.
+- **Move Into Project** opens a screen. Type the path of names of a project, for example `Work/api`, or select a project in the list under the field. Then press <kbd>↩</kbd> on the **Move into** row.
+- **Move Out of Project** moves the current project out of its parent. It shows only for a project inside another project.
 
 **To open a folder as a project**, type a path that starts with `/` or `~`. The palette changes to path mode and completes folder names.
 
