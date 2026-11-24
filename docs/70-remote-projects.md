@@ -128,5 +128,5 @@ Macterm 1 ran a zmx session on the host for each pane. Macterm 2 does not use th
 ## Limitations
 
 - A session whose pane you close while the host is not connected stays on the host.
-- **Replace Project Path with Current Dir** and other local-directory features are off.
+- **Change Project Directory** and other local-folder features are off.
 - A session keeps the environment from the time when Macterm created it. After you upgrade Macterm, an existing remote tab does not get new variables (for example, the variable that lets agents report progress). Open a new tab or pane instead.

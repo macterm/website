@@ -14,6 +14,8 @@ Press <kbd>⌘P</kbd>. One list searches everything:
 - **Commands**: split, close and focus panes. Create, rename, pin and switch tabs. Show or hide parts of the window. Each row shows its current keybind.
 - **Projects**: go to any project. With nothing typed, the recent projects are first. Under a project inside another project, the palette shows the names of the projects above it (`Work / api`). Under a project at the top level, it shows the folder. A search also finds a project by those names. Rename or remove the current project with its commands.
 
+**To change the folder of the current project**, run **Change Project Directory** (also in the Project menu). Its screen has a **Current Pane's Directory** row, with the folder of the focused pane under it. Press <kbd>↩</kbd> to use that folder. The row is not there when the pane is in the project's folder. You can also type a path. The screen completes folder names, as path mode does. Press <kbd>↩</kbd> on the path or on a completion row. Open panes stay where they are. A new tab that starts in the project folder starts in the new folder. A remote project does not have this command.
+
 **To open a folder as a project**, type a path that starts with `/` or `~`. The palette changes to path mode and completes folder names.
 
 **To add a remote project**, type a spec such as `devbox:~/dev/api`. See [remote projects](/docs/remote-projects).
