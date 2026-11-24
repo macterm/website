@@ -104,6 +104,16 @@ A read-only pane shows a **Read-Only** pill in its top-right corner, first in th
 
 The mode also stops password autofill. `macterm pane run` and `macterm pane key` return the error `read_only` and type nothing. A Ghostty keybind still runs. See [Reading a pane](/docs/cli#reading-a-pane).
 
+## Zoom the picture of a pane
+
+Pinch on the trackpad over a pane to make its text larger. The pane, its grid and the program in it do not change: only the picture of the pane scales, up to 3 times. While you pinch, the text is soft. When you stop, it becomes sharp.
+
+While the picture is zoomed, scroll with two fingers to move it. At an edge of the picture, the scroll goes to the terminal.
+
+To go back to the normal size, run **Reset Zoom** from the command palette. It has no keybind by default. To add one, go to **Settings → Keymaps**. A new pane, and a pane that Macterm starts again, has the normal size.
+
+To make a pane fill the tab, use **Zoom Pane**. A pinch does not do this.
+
 ## Open files in your terminal editor
 
 Macterm can open text files in a terminal editor such as Helix or Neovim. macOS cannot make such an editor a default app on its own.
