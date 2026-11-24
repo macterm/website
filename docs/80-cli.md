@@ -37,7 +37,7 @@ The grammar is `macterm <noun> <verb> [options]`. A noun with no verb means `lis
 | Command | Description |
 |---|---|
 | `status` | Shows the version, the pid and the active project. Exits with a non-zero code if no app is reachable. |
-| `project list` | Lists all projects with refs (`project:1`), active and loaded markers, and tab counts. A project can hold other projects. On a terminal, the list shows as a tree. To a pipe, each project is one line, with a parent column when a project has a parent. In `--json`, `parent` is the name of the project that holds it, empty at the top level. |
+| `project list` | Lists all projects with refs (`project:1`), active and loaded markers, and tab counts. On a terminal, the list shows as a tree. To a pipe, each project is one line, with the name of its parent (`-` at the top level). In `--json`, `parent` is that name (empty at the top level) and `parentID` is its UUID. |
 | `project create <path> [--name N] [--select]` | Adds a project for a local directory or a [remote spec](/docs/remote-projects). **It is not idempotent.** Each run adds a new project. `--name` defaults to the name of the directory and cannot be empty. `Pinned` is a reserved name. `--name Pinned` is refused, and a directory with the name Pinned is added as `Pinned 2`. |
 | `project select <name\|uuid\|index> [--window W]` | Makes a project active and shows its project screen, as a click on its sidebar row does. `pinned` selects the pinned tabs. |
 | `project rename <project> <name>` | Renames a project. `Pinned` is a reserved name. |
