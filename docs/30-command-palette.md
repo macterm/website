@@ -12,17 +12,32 @@ Press <kbd>⌘P</kbd>. One list searches everything:
 
 - **Palettes**: the screens below. This is the first section after your recent projects. A row with an icon and a chevron opens a screen in the same place.
 - **Commands**: split, close and focus panes. Create, rename, pin and switch tabs. Show or hide parts of the window. Each row shows its current keybind.
-- **Projects**: go to any project. With nothing typed, the recent projects are first. Under a project inside another project, the palette shows the names of the projects above it (`Work / api`). Under a project at the top level, it shows the folder. A search also finds a project by those names. Rename or remove the current project with its commands.
+- **Projects**: go to any project. With nothing typed, the recent projects are first. Under a project inside another project, the palette shows the names of the projects above it (`Work/api`). Under a project at the top level, it shows the folder. A search also finds a project by those names. Rename or remove the current project with its commands.
+
+**To change the tree of projects and tabs from the keyboard**, use these commands. They are also in the **Project** menu.
+
+- **New Project Inside** opens a folder. The new project goes inside the current project.
+- **Move to Project** moves a tab or a project to another project. It moves the tab that shows. To move a project, click its row in the sidebar first, so that the window shows the project. The list shows the projects that can take it, each with its path of names (`Work/api`). Type a name or a path to filter the list. Select a project and press <kbd>↩</kbd>. The **Move to Project** item of the sidebar menu of a tab or a project does the same.
+- **Move Out of Project** moves the current project out of its parent. It shows only for a project inside another project.
 
 **To open a folder as a project**, type a path that starts with `/` or `~`. The palette changes to path mode and completes folder names.
 
-**To add a remote project**, choose **New Remote Project** and pick a host of your `~/.ssh/config`, or type a spec such as `devbox:~/dev/api`. See [remote projects](/docs/remote-projects).
+**New Project** (<kbd>⌘O</kbd>) opens the New Project screen. The **New Project** button at the bottom of the sidebar, **File → New Project…** and the Dock menu also open it.
+
+- With nothing typed, the screen shows **Select in Finder** and **Cancel**. Select **Select in Finder** to select the folder in a panel.
+- Type the path of a folder. The rows are the folders that exist for the path, the same as in path mode. Press <kbd>Return</kbd> or click a row to add that folder as a project. If a project already has that folder, the row selects that project, and the row below adds another project. A remote spec opens the folder step of **New Remote Project**.
+- Press <kbd>Tab</kbd> to put the selected folder in the field. Press <kbd>Tab</kbd> again to go into it.
+- If no folder matches the path, the screen tells you that the path does not exist, and shows no rows.
+
+**To add a remote project**, choose **New Remote Project** and select a host of your `~/.ssh/config`, or type a spec such as `devbox:~/dev/api`. See [remote projects](/docs/remote-projects).
 
 Some commands open a screen of their own in the palette. A pill above the palette names the screen. In the list, a row for such a screen shows the icon of the screen and a chevron. A screen can open another screen. The pills then show a trail, with the root first. Click a pill to go back to it. Press <kbd>Esc</kbd> to go back one screen. You can also press <kbd>Delete</kbd> with nothing typed. A held <kbd>Delete</kbd> clears the search and stops at the empty field.
 
 A screen that must wait for its list shows a spinner. If the list fails, the screen says why and shows a Retry button. <kbd>⌘R</kbd> also retries.
 
 **Some rows have a second action** under <kbd>⌥</kbd>. Hold the key. The subtitle of the row then names what <kbd>⌥↩</kbd> (or an ⌥-click) does.
+
+**Rename Current Tab** (<kbd>⌘R</kbd>) and **Rename Current Project** ask for the new name in the palette. The field shows the current name, selected. When you type a new name, the row **Rename to "name"** shows under the field. Press <kbd>Return</kbd> on that row to rename, or <kbd>Esc</kbd> to keep the name. To give a tab its automatic name again, clear the field: the row changes to **Use the automatic name**. If a project cannot have the name, the palette shows the reason and no row. You can also double-click a row in the sidebar to rename it there.
 
 Each screen can have its own keybind in Settings → Keymaps, under **Palettes**, next to <kbd>⌘P</kbd>. No screen has a keybind by default. The keybind opens the palette on that screen. Press it again on that screen to close the palette. Press it on another screen to go to its screen.
 

@@ -32,14 +32,18 @@ Host devbox
 
 ## Creating one
 
-Choose **New Remote Project** in the command palette (<kbd>⌘P</kbd>), or go to **Sidebar → + → Remote Machine…**. The palette opens on two steps:
+Choose **New Remote Project** in the command palette (<kbd>⌘P</kbd>), or right-click an empty area of the sidebar and select **New Project → Remote Machine…**. The palette opens on two steps:
 
 1. **Host.** The palette lists each `Host` of your `~/.ssh/config`, with its `HostName` and `User`. Macterm follows `Include` lines. It does not list a pattern with a wildcard (`Host *`), and it does not read `Match` blocks. To use a host that is not in the list, type `user@host` (or `user@host:folder`) and select its row. It is the first row when no host of the list matches.
-2. **Folder.** Type the folder on the host: `~/dev/api`, `/srv/app`, or a path that is relative to the remote home. The field starts on `~`. Press Return.
+2. **Folder.** Type the folder on the host. It starts with `~` or `/`, for example `~/dev/api` or `/srv/app`. The field starts on `~`. When the connection to the host is up, the rows are the folders on the host, the same as for a local path. Press <kbd>Return</kbd> or click a row to add that folder as a project. Press <kbd>Tab</kbd> to go into the selected folder.
 
-You can also type `devbox:~/dev/api` in the command palette and select **Add remote project**. The folder step opens with the folder filled in. Press Return.
+You can also type `devbox:~/dev/api` in the command palette, or on the New Project screen, and select its row. The folder step opens with the folder filled in.
 
-When you press Return, Macterm connects to the host and checks that the folder is there. The palette shows that it connects. This is the first connection, so the login and the question about the server come now, as sheets over the palette. Macterm checks the folder before it asks about the server. The project gets the name of the folder, or the name of the host for `~`. To change the name, rename the project. If the folder is not on the host, or if the host does not answer, Macterm adds no project and shows why in the middle of the palette. Change the folder and press Return again. A change to the folder while Macterm connects stops the check. `macterm project create devbox:~/dev/api` does the same check.
+If the path is not there, or if it is a file, the palette tells you as you type, in the middle of the palette, the same as for a local path. Macterm adds no project.
+
+When the connection to the host is not up yet, the palette cannot list the folders. The row **New Project "devbox:~/dev/api"** shows. Press <kbd>Return</kbd>: Macterm connects to the host and checks that the folder is there. This is the first connection, so the login and the question about the server come now, as sheets over the palette. Macterm checks the folder before it asks about the server. If the folder is not there, the palette tells you. If the host does not answer, the palette shows why and a **Retry** button. A change to the folder while Macterm connects stops the check. `macterm project create devbox:~/dev/api` does the same check.
+
+The project gets the name of the folder, or the name of the host for `~`. To change the name, rename the project.
 
 If the folder of a project that you already have is removed later, a new pane starts in the home folder and shows one `macterm:` line.
 

@@ -66,6 +66,7 @@ Macterm draws the window chrome itself. It ignores or forces these keys:
 | `tab-inherit-working-directory` | `false` (the Macterm default) starts new tabs at the project root. `true` uses the directory of the focused pane. |
 | `split-inherit-working-directory` | The same, for splits. |
 | `focus-follows-mouse` | `true` focuses the pane under the pointer in the active window, as a click on the pane does. It never takes focus from the command palette, the search bar or a rename field. |
+| `confirm-close-surface` | `true` (default) asks before a close or a quit ends a running program. `false` never asks. `always` asks at every close. It applies to local and remote panes, and to the `busy` error of the CLI. Set `confirm-close-surface = false` to turn the warning off. |
 | `macos-shortcuts` | Controls access to [Shortcuts](/docs/shortcuts): `ask` (default), `allow` or `deny`. |
 | `macos-hidden = always` | Runs Macterm with no Dock icon, no menu bar, and no <kbd>⌘</kbd><kbd>⇥</kbd> entry. See below. |
 
