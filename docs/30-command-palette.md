@@ -20,6 +20,8 @@ Press <kbd>⌘P</kbd>. One list searches everything:
 - **Move to Project** moves a tab or a project to another project. It moves the tab that shows. To move a project, click its row in the sidebar first, so that the window shows the project. The list shows the projects that can take it, each with its path of names (`Work/api`). Type a name or a path to filter the list. Select a project and press <kbd>↩</kbd>. The **Move to Project** item of the sidebar menu of a tab or a project does the same.
 - **Move Out of Project** moves the current project out of its parent. It shows only for a project inside another project.
 
+**To change the folder of the current project**, run **Change Project Directory** (also in the Project menu). Its screen has a **Current Pane's Directory** row, with the folder of the focused pane under it. Press <kbd>↩</kbd> to use that folder. The row is not there when the pane is in the project's folder. You can also type a path. The screen completes folder names, as path mode does: <kbd>⇥</kbd> or a click puts a completion in the field. Press <kbd>↩</kbd> to use the path in the field, or select a completion row with the arrow keys and press <kbd>↩</kbd>. Open panes stay where they are. A new tab that starts in the project folder starts in the new folder. A remote project does not have this command.
+
 **To open a folder as a project**, type a path that starts with `/` or `~`. The palette changes to path mode and completes folder names.
 
 **New Project** (<kbd>⌘O</kbd>) opens the New Project screen. The **New Project** button at the bottom of the sidebar, **File → New Project…** and the Dock menu also open it.
